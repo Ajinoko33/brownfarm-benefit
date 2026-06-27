@@ -7,12 +7,12 @@ import java.util.Objects;
 
 public record AdditionalValueItem(
         Item item,
-        BigDecimal cumulativeAdditionalValue,
-        BigDecimal directAdditionalValue
+        BigDecimal directAdditionalValue,
+        BigDecimal cumulativeAdditionalValue
 ) {
     public AdditionalValueItem {
         Objects.requireNonNull(item);
-        Objects.requireNonNull(cumulativeAdditionalValue);
         Objects.requireNonNull(directAdditionalValue);
+        Objects.requireNonNull(cumulativeAdditionalValue);
     }
 }

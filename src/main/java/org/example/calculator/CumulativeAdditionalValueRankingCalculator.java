@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CumulativeAdditionalValueRankingCalculator {
+class CumulativeAdditionalValueRankingCalculator {
     public CumulativeAdditionalValueRankingResult calculate(final List<AdditionalValueItem> items) {
         // shop ごとにグルーピング
         final Map<ShopName, List<AdditionalValueItem>> additionalValueItemMap = items.stream().collect(Collectors.groupingBy(item -> item.item().shop()));
@@ -24,7 +24,7 @@ public class CumulativeAdditionalValueRankingCalculator {
 
             // shop 内でソート
             final List<AdditionalValueItem> sortedItemList = itemList.stream().sorted(
-                    Comparator.comparing(AdditionalValueItem::cumulativeAdditionalValue)
+                    Comparator.comparing(AdditionalValueItem::cumulativeAdditionalValue).reversed()
             ).toList();
 
             // 変換

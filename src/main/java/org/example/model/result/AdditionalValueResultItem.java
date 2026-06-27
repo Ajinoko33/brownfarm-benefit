@@ -4,7 +4,7 @@ import org.example.calculator.AdditionalValueItem;
 
 import java.util.Objects;
 
-// 品物ごとの付加価値：品物名、(素材からの)累積付加価値, (固有の)直接付加価値
+// 品物ごとの付加価値：品物名、(基本品物からの)累積付加価値, (固有の)直接付加価値
 public record AdditionalValueResultItem(
         String itemName,
         int cumulativeAdditionalValue,

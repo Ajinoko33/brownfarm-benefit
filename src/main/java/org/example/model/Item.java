@@ -14,4 +14,8 @@ public record Item(
         Objects.requireNonNull(shop);
         Objects.requireNonNull(material);
     }
+
+    public boolean isFundamentalItem() {
+        return material.isEmpty();
+    }
 }

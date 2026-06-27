@@ -41,13 +41,21 @@ public class CsvReader {
                      new InputStreamReader(is, StandardCharsets.UTF_8)
              )) {
             // CSV ヘッダー
-            final String headerLine = reader.readLine();
+            final String headerLine = removeBOM(reader.readLine());
             validateHeaderLine(headerLine);
 
             // データ
             return reader.lines().map(CsvReader::convertToItem).toList();
         } catch (final IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static String removeBOM(final String input) {
+        if (input.charAt(0) == '\uFEFF') {
+            return input.substring(1);
+        } else {
+            return input;
         }
     }
 
@@ -66,24 +74,11 @@ public class CsvReader {
         }
     }
 
-    private static void throwInvalidHeaderError(final String[] expectedHeaders) {
+    private static void throwInvalidHeaderError(final String[] incomingHeaders) {
         final StringBuilder sb = new StringBuilder();
         sb.append("[ERROR] 想定するヘッダーではありません:\n");
 
         // expected
-        sb.append("Expected: ");
-        for (int i = 0; i < expectedHeaders.length; i++) {
-            if (i > 0) {
-                sb.append(", ");
-            }
-
-            sb.append("\"");
-            sb.append(expectedHeaders[i]);
-            sb.append("\"");
-        }
-        sb.append("\n");
-
-        // actual
         sb.append("Actual: ");
         for (int i = 0; i < CsvReader.HEADERS.length; i++) {
             if (i > 0) {
@@ -92,6 +87,19 @@ public class CsvReader {
 
             sb.append("\"");
             sb.append(CsvReader.HEADERS[i]);
+            sb.append("\"");
+        }
+        sb.append("\n");
+
+        // actual
+        sb.append("Expected: ");
+        for (int i = 0; i < incomingHeaders.length; i++) {
+            if (i > 0) {
+                sb.append(", ");
+            }
+
+            sb.append("\"");
+            sb.append(incomingHeaders[i]);
             sb.append("\"");
         }
         sb.append("\n");
